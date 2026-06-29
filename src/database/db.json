@@ -1,0 +1,32 @@
+[
+    {
+      "id": 1,
+      "name": "Rice",
+      "price": 75,
+      "category": "Grains"
+    },
+    {
+      "id": 2,
+      "name": "Potato",
+      "price": 45,
+      "category": "Vegetables"
+    },
+    {
+      "id": 3,
+      "name": "Tomato",
+      "price": 80,
+      "category": "Vegetables"
+    },
+    {
+      "id": 4,
+      "name": "Chicken",
+      "price": 280,
+      "category": "Meat"
+    },
+    {
+      "id": 5,
+      "name": "Milk",
+      "price": 95,
+      "category": "Dairy"
+    }
+  ]
