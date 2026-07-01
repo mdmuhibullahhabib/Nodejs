@@ -12,12 +12,6 @@
     "category": "Vegetables"
   },
   {
-    "id": 3,
-    "name": "abcd vagitable",
-    "price": 54500000000,
-    "category": "Vegetables abcd"
-  },
-  {
     "id": 4,
     "name": "Chicken",
     "price": 280,

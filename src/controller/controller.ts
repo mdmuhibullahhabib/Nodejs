@@ -3,11 +3,11 @@ import { insertProduct, readProduct } from "../service/product.service";
 import { IProduct } from "../types/product.type";
 import { parseBody } from "../utlity/parse.Body";
 
-export const poductController = async(
+export const poductController = async (
     req: IncomingMessage,
     res: ServerResponse
 ) => {
-    
+
     const url = req.url
     const method = req.method
 
@@ -24,12 +24,12 @@ export const poductController = async(
         const products = readProduct();
 
         // console.log(products, "p");
-        
+
 
         res.writeHead(200, ({ "content-type": "application/json" }))
         res.end(
             JSON.stringify({
-                message: "products...", 
+                message: "products...",
                 data: products
             })
         )
@@ -70,14 +70,14 @@ export const poductController = async(
                 data: insertProduct,
             })
         )
-    }else if (method=== "PUT"  && id !==null) {
+    } else if (method === "PUT" && id !== null) {
         const body = await parseBody(req)
         const products = readProduct()
 
-        const index = products.findIndex((p : IProduct) =>p.id === id);
-        console.log(index,"index")
+        const index = products.findIndex((p: IProduct) => p.id === id);
+        console.log(index, "index")
 
-        if(index <0){
+        if (index < 0) {
 
             res.writeHead(404, ({ "content-type": "application/json" }))
             res.end(
@@ -88,7 +88,7 @@ export const poductController = async(
             )
         }
         // console.log(products[index]);
-        products[index] = {id: products[index].id, ...body}
+        products[index] = { id: products[index].id, ...body }
 
         insertProduct(products)
 
@@ -99,8 +99,36 @@ export const poductController = async(
                 data: products[index],
             })
         )
+
+
+    } else if (method === "DELETE" && id !== null) {
+
+        const products = readProduct();
+
+        const index = products.findIndex((p:IProduct) => p.id === id)
+
+        if (index < 0) {
+
+            res.writeHead(404, ({ "content-type": "application/json" }))
+            res.end(
+                JSON.stringify({
+                    message: "product not found...",
+                    data: null,
+                })
+            )
+        }
         
-        
+        products.splice(index,1)
+
+        insertProduct(products)
+
+        res.writeHead(200, ({ "content-type": "application/json" }))
+        res.end(
+            JSON.stringify({
+                message: "product delete successfully...",
+                data: null,
+            })
+        )
     }
 
 }
