@@ -1,17 +1,15 @@
 import { IncomingMessage, Server, ServerResponse, createServer } from "http";
 import { routeHandler } from "./routes/route";
+import config from "./config";
 
 const server: Server = createServer((req: IncomingMessage, res: ServerResponse) => {
 
 
     routeHandler(req, res);
-
-
 }
 )
-
-server.listen(5000, () => {
-    console.log("server is running ini port 5000...");
+server.listen(config.port, () => {
+    console.log(`server is running ini port ${config.port}...`);
 
 })
 

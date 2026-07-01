@@ -2,6 +2,7 @@ import { IncomingMessage, ServerResponse } from "http";
 import { insertProduct, readProduct } from "../service/product.service";
 import { IProduct } from "../types/product.type";
 import { parseBody } from "../utlity/parse.Body";
+import { sendResponse } from "../utlity/sendResponse";
 
 export const poductController = async (
     req: IncomingMessage,
@@ -21,32 +22,41 @@ export const poductController = async (
 
     if (url === "/products" && method === "GET") {  //grt all products
 
-        const products = readProduct();
+        try {
+            const products = readProduct();
 
-        // console.log(products, "p");
+           return sendResponse(res,200, true, "products...", products)
+            
+        } catch (error) {
+           return sendResponse(res,500, false, "something went wrong...", error)
+            
+        }
 
-
-        res.writeHead(200, ({ "content-type": "application/json" }))
-        res.end(
-            JSON.stringify({
-                message: "products...",
-                data: products
-            })
-        )
     } else if (method === "GET" && id !== null) {  //get single product
 
-        const products = readProduct();
-        const product = products.find((p: IProduct) => p.id === id)
+        try {
+            const products = readProduct();
+            const product = products.find((p: IProduct) => p.id === id)
+
+           return sendResponse(res,200, true, "single product...", product)
+            
+        } catch (error) {
+           return sendResponse(res,500, false, "something went wrong...", error)
+            
+        }
+
+        // const products = readProduct();
+        // const product = products.find((p: IProduct) => p.id === id)
 
         // console.log(product);
 
-        res.writeHead(200, ({ "content-type": "application/json" }))
-        res.end(
-            JSON.stringify({
-                message: "product...",
-                data: product
-            })
-        )
+        // res.writeHead(200, ({ "content-type": "application/json" }))
+        // res.end(
+        //     JSON.stringify({
+        //         message: "product...",
+        //         data: product
+        //     })
+        // )
 
     } else if (method === "POST" && url === '/products') {
 
@@ -100,12 +110,11 @@ export const poductController = async (
             })
         )
 
-
     } else if (method === "DELETE" && id !== null) {
 
         const products = readProduct();
 
-        const index = products.findIndex((p:IProduct) => p.id === id)
+        const index = products.findIndex((p: IProduct) => p.id === id)
 
         if (index < 0) {
 
@@ -117,8 +126,8 @@ export const poductController = async (
                 })
             )
         }
-        
-        products.splice(index,1)
+
+        products.splice(index, 1)
 
         insertProduct(products)
 
@@ -130,5 +139,4 @@ export const poductController = async (
             })
         )
     }
-
 }
